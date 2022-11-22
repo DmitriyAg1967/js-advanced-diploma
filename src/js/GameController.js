@@ -1,7 +1,7 @@
 import themes from './themes';
 import Team from './Team';
 import { generateTeam } from './generators';
-import Bowman from './Characters/Bowman';
+import Bowman from './Characters/Bowman.js';
 import Swordsman from './Characters/Swordsman';
 import Daemon from './Characters/Daemon';
 import Undead from './Characters/Undead';
