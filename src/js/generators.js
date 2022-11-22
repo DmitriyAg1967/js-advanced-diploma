@@ -1,4 +1,3 @@
-/* eslint-disable no-unused-vars */
 /**
  * Generates random characters
  *
@@ -9,18 +8,20 @@
 export function* characterGenerator(allowedTypes, maxLevel) {
   // TODO: write logic here
   while (true) {
-    const type = Math.floor(Math.random() * allowedTypes.length);
-    const level = Math.floor(Math.random() * maxLevel + 1);
-    yield new allowedTypes[type](level);
+    const tipe = Math.floor(Math.random() * allowedTypes.length);
+    const level = Math.floor(Math.random() * maxLevel) + 1;
+    yield new allowedTypes[tipe](level);
   }
 }
 
 export function generateTeam(allowedTypes, maxLevel, characterCount) {
   // TODO: write logic here
   const team = [];
-  const unit = characterGenerator(allowedTypes, maxLevel);
-  for (let i = 0; i < characterCount; i += 1) {
-    team.push(unit.next().value);
+  const character = characterGenerator(allowedTypes, maxLevel);
+
+  while (team.length < characterCount) {
+    team.push(character.next().value);
   }
+
   return team;
 }

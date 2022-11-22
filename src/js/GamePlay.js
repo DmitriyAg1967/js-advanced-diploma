@@ -178,11 +178,21 @@ export default class GamePlay {
   }
 
   static showError(message) {
-    alert(message);
+    // eslint-disable-next-line no-alert
+    if (typeof alert !== 'undefined') {
+      alert(message);
+    } else {
+      console.log('Error: function `alert` is undefined.');
+    }
   }
 
   static showMessage(message) {
-    alert(message);
+    // eslint-disable-next-line no-alert
+    if (typeof alert !== 'undefined') {
+      alert(message);
+    } else {
+      console.log('Error: function `alert` is undefined.');
+    }
   }
 
   selectCell(index, color = 'yellow') {

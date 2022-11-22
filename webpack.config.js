@@ -7,22 +7,12 @@ module.exports = {
     path: path.resolve(__dirname, 'dist'),
     chunkLoading: false,
     wasmLoading: false,
-    assetModuleFilename: path.join('images', '[name].[contenthash][ext]'),
   },
   module: {
     rules: [
       {
-        
         test: /\.(png|jpg|jpeg|gif)$/i,
         type: 'asset/resource',
-        /* use: [
-          {
-            loader: 'url-loader',
-            options: {
-              limit: 8192,
-            },
-          },
-        ], */
       },
       {
         test: /\.js$/,
