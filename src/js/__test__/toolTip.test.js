@@ -1,5 +1,5 @@
-import Daemon from '../Characters/Daemon';
-import Vampire from '../Characters/Vampire';
+import Daemon from '../characters/Daemon';
+import Vampire from '../characters/Vampire';
 
 test('Контент всплывающей подсказки должен быть корректным', () => {
   const daemon = new Daemon(1);

@@ -1,13 +1,13 @@
-import Bowman from '../Characters/Bowman';
+import Bowman from '../characters/Bowman';
 import cursors from '../cursors';
 import GameController from '../GameController';
 import GamePlay from '../GamePlay';
 import PositionedCharacter from '../PositionedCharacter';
 import Team from '../Team';
-import Swordsman from '../Characters/Swordsman';
-import Vampire from '../Characters/Vampire';
+import Swordsman from '../characters/Swordsman';
+import Vampire from '../characters/Vampire';
 import GameStateService from '../GameStateService';
-import Daemon from '../Characters/Daemon';
+import Daemon from '../characters/Daemon';
 
 const posVampire = new PositionedCharacter(new Vampire(1), 30);
 const posSwordsman = new PositionedCharacter(new Swordsman(1), 1);
