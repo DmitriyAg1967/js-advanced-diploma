@@ -47,20 +47,21 @@ export default class GameController {
 
   onCellClick(index) {
     // TODO: react to click
+    const charindex = this.getChar(index);
 
     if (this.gameState.level === 5 || this.userTeam.members.size === 0) {
       return;
     }
 
     // Реализация атаки
-    if (this.gameState.selected !== null && this.getChar(index) && this.isBotChar(index)) {
+    if (this.gameState.selected !== null && charindex && this.isBotChar(index)) {
       if (this.isAttack(index)) {
         this.getAttack(index, this.gameState.selected);
       }
     }
 
     // перемещение персонажа игрока
-    if (this.gameState.selected !== null && this.isMoving(index) && !this.getChar(index)) {
+    if (this.gameState.selected !== null && this.isMoving(index) && !charindex) {
       if (this.gameState.isUsersTurn) {
         this.getUsersTurn(index);
       }
@@ -68,23 +69,23 @@ export default class GameController {
 
     // Если не валидный ход, то показываем сообщение об ошибке
     if (this.gameState.selected !== null && !this.isMoving(index) && !this.isAttack(index)) {
-      if (this.gameState.isUsersTurn && !this.getChar(index)) {
+      if (this.gameState.isUsersTurn && !charindex) {
         GamePlay.showError('Недопустимый ход');
       }
     }
 
     // Если ячейка пустая то при клике на неё return
-    if (!this.getChar(index)) {
+    if (!charindex) {
       return;
     }
 
     // Если клик на бота, то показываем сообщение об ошибке
-    if (this.getChar(index) && this.isBotChar(index) && !this.isAttack(index)) {
+    if (charindex && this.isBotChar(index) && !this.isAttack(index)) {
       GamePlay.showError('Это не ваш персонаж');
     }
 
     // Если клик на персонажа игрока, то выделяем клетку желтым
-    if (this.getChar(index) && this.isUserChar(index)) {
+    if (charindex && this.isUserChar(index)) {
       this.gamePlay.cells.forEach((elem) => elem.classList.remove('selected-green'));
       this.gamePlay.cells.forEach((elem) => elem.classList.remove('selected-yellow'));
       this.gamePlay.selectCell(index);
