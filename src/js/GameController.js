@@ -58,21 +58,21 @@ export default class GameController {
       if (this.isAttack(index)) {
         this.getAttack(index, this.gameState.selected);
       }
-    }
-
-    // перемещение персонажа игрока
-    if (this.gameState.selected !== null && this.isMoving(index) && !charindex) {
+    } else if (this.gameState.selected !== null && this.isMoving(index) && !charindex) {
       if (this.gameState.isUsersTurn) {
         this.getUsersTurn(index);
       }
-    }
-
-    // Если не валидный ход, то показываем сообщение об ошибке
-    if (this.gameState.selected !== null && !this.isMoving(index) && !this.isAttack(index)) {
+    } else if (this.gameState.selected !== null && !this.isMoving(index) && !this.isAttack(index)) {
       if (this.gameState.isUsersTurn && !charindex) {
         GamePlay.showError('Недопустимый ход');
       }
+    } else if (charindex && this.isBotChar(index) && !this.isAttack(index)) {
+      GamePlay.showError('Это не ваш персонаж');
     }
+
+    // перемещение персонажа игрока
+
+    // Если не валидный ход, то показываем сообщение об ошибке
 
     // Если ячейка пустая то при клике на неё return
     if (!charindex) {
@@ -80,9 +80,6 @@ export default class GameController {
     }
 
     // Если клик на бота, то показываем сообщение об ошибке
-    if (charindex && this.isBotChar(index) && !this.isAttack(index)) {
-      GamePlay.showError('Это не ваш персонаж');
-    }
 
     // Если клик на персонажа игрока, то выделяем клетку желтым
     if (charindex && this.isUserChar(index)) {
