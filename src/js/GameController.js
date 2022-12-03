@@ -47,7 +47,7 @@ export default class GameController {
 
   onCellClick(index) {
     // TODO: react to click
-    const charindex = this.getChar(index);
+    const charindex = this.Char(index);
 
     if (this.gameState.level === 5 || this.userTeam.members.size === 0) {
       return;
@@ -56,11 +56,11 @@ export default class GameController {
     // Реализация атаки
     if (this.gameState.selected !== null && charindex && this.isBotChar(index)) {
       if (this.isAttack(index)) {
-        this.getAttack(index, this.gameState.selected);
+        this.Attack(index, this.gameState.selected);
       }
     } else if (this.gameState.selected !== null && this.isMoving(index) && !charindex) {
       if (this.gameState.isUsersTurn) {
-        this.getUsersTurn(index);
+        this.UsersTurn(index);
       }
     } else if (this.gameState.selected !== null && !this.isMoving(index) && !this.isAttack(index)) {
       if (this.gameState.isUsersTurn && !charindex) {
@@ -94,22 +94,22 @@ export default class GameController {
     // TODO: react to mouse enter
 
     // Если в ячейке персонаж игрока, то при наведении на ячейку курсор = pointer
-    if (this.getChar(index) && this.isUserChar(index)) {
+    if (this.Char(index) && this.isUserChar(index)) {
       this.gamePlay.setCursor(cursors.pointer);
     }
     // Если валидный диапазон перемещения, то при наведении выделяем ячейку зелёным
-    if (this.gameState.selected !== null && !this.getChar(index) && this.isMoving(index)) {
+    if (this.gameState.selected !== null && !this.Char(index) && this.isMoving(index)) {
       this.gamePlay.setCursor(cursors.pointer);
       this.gamePlay.selectCell(index, 'green');
     }
     // При наведении на персонажа показываем инфо
-    if (this.getChar(index)) {
-      const char = this.getChar(index).character;
+    if (this.Char(index)) {
+      const char = this.Char(index).character;
       const message = `\u{1F396}${char.level}\u{2694}${char.attack}\u{1F6E1}${char.defence}\u{2764}${char.health}`;
       this.gamePlay.showCellTooltip(message, index);
     }
     // Если валидный диапазон атаки, то при наведении выделяем ячейку красным
-    if (this.gameState.selected !== null && this.getChar(index) && !this.isUserChar(index)) {
+    if (this.gameState.selected !== null && this.Char(index) && !this.isUserChar(index)) {
       if (this.isAttack(index)) {
         this.gamePlay.setCursor(cursors.crosshair);
         this.gamePlay.selectCell(index, 'red');
@@ -137,10 +137,10 @@ export default class GameController {
    * @returns после атаки пересчитывается полоска жизни над
    *  персонажем (она автоматически пересчитывается в redrawPositions).
    */
-  getAttack(idx) {
+  Attack(idx) {
     if (this.gameState.isUsersTurn) {
-      const attacker = this.getChar(this.gameState.selected).character;
-      const target = this.getChar(idx).character;
+      const attacker = this.Char(this.gameState.selected).character;
+      const target = this.Char(idx).character;
       const damage = Math.max(attacker.attack - target.defence, attacker.attack * 0.1);
       if (!attacker || !target) {
         return;
@@ -155,7 +155,7 @@ export default class GameController {
         this.gamePlay.redrawPositions(this.gameState.allPositions);
       }).then(() => {
         this.getGameResult();
-        this.getBotsResponse();
+        this.BotsResponse();
       });
       this.gameState.isUsersTurn = false;
     }
@@ -166,13 +166,13 @@ export default class GameController {
    *  если диапазон валидный
    * @param {number} idx индекс ячейки перемещения
    */
-  getUsersTurn(idx) {
+  UsersTurn(idx) {
     this.getSelectedChar().position = idx;
     this.gamePlay.deselectCell(this.gameState.selected);
     this.gamePlay.redrawPositions(this.gameState.allPositions);
     this.gameState.selected = idx;
     this.gameState.isUsersTurn = false;
-    this.getBotsResponse();
+    this.BotsResponse();
   }
 
   /**
@@ -181,7 +181,7 @@ export default class GameController {
    * @returns наносит урон персонажу игрока, в случае атаки или рандомно выбирает бота и реализует
    *перемещение.
    */
-  getBotsResponse() {
+  BotsResponse() {
     if (this.gameState.isUsersTurn) {
       return;
     }
@@ -271,14 +271,14 @@ export default class GameController {
       this.scoringPoints();
       GamePlay.showMessage(`Вы прошли уровень ${this.gameState.level} Количество набранных очков: ${this.gameState.points}`);
       this.gameState.level += 1;
-      this.getLevelUp();
+      this.LevelUp();
     }
   }
 
   /**
    * Функция перехода на следующий уровень.
    */
-  getLevelUp() {
+  LevelUp() {
     this.gameState.allPositions = [];
     this.userTeam.members.forEach((char) => char.levelUp());
 
@@ -317,7 +317,7 @@ export default class GameController {
    */
   getDeletion(idx) {
     const state = this.gameState.allPositions;
-    state.splice(state.indexOf(this.getChar(idx)), 1);
+    state.splice(state.indexOf(this.Char(idx)), 1);
   }
 
   /**
@@ -409,8 +409,8 @@ export default class GameController {
    * @returns boolean
    */
   isUserChar(idx) {
-    if (this.getChar(idx)) {
-      const char = this.getChar(idx).character;
+    if (this.Char(idx)) {
+      const char = this.Char(idx).character;
       return this.userCharacters.some((elem) => char instanceof elem);
     }
     return false;
@@ -422,8 +422,8 @@ export default class GameController {
    * @returns boolean
    */
   isBotChar(idx) {
-    if (this.getChar(idx)) {
-      const bot = this.getChar(idx).character;
+    if (this.Char(idx)) {
+      const bot = this.Char(idx).character;
       return this.botCharacters.some((elem) => bot instanceof elem);
     }
     return false;
@@ -433,7 +433,7 @@ export default class GameController {
    * @param {number} idx индекс персонажа
    * @returns Возвращает персонажа по индексу из gameState.allPositions
    */
-  getChar(idx) {
+  Char(idx) {
     return this.gameState.allPositions.find((elem) => elem.position === idx);
   }
 

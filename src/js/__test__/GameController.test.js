@@ -52,10 +52,10 @@ test('метод addsTheTeamToPosition должен добавить коман�
   expect(testCtrl.gameState.allPositions.length).toBe(6);
 });
 
-test('метод getChar должен вернуть персонажа по индексу', () => {
-  expect(testCtrl.getChar(1)).toEqual(posSwordsman);
-  expect(testCtrl.getChar(24)).toEqual(posBowman);
-  expect(testCtrl.getChar(30)).toEqual(posVampire);
+test('метод Char должен вернуть персонажа по индексу', () => {
+  expect(testCtrl.Char(1)).toEqual(posSwordsman);
+  expect(testCtrl.Char(24)).toEqual(posBowman);
+  expect(testCtrl.Char(30)).toEqual(posVampire);
 });
 
 test('метод isUserChar должен проверить наличие персонажа игрока по индексу', () => {
